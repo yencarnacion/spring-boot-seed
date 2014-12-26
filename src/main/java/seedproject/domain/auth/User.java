@@ -24,16 +24,16 @@ public class User {
     String password;
 
     @Column(nullable=false)
-    Boolean enabled = true;
+    boolean enabled;
 
     @Column(nullable=false)
-    Boolean accountExpired = false;
+    boolean accountExpired;
 
     @Column(nullable=false)
-    Boolean accountLocked = false;
+    boolean accountLocked;
 
     @Column(nullable=false)
-    Boolean passwordExpired = false;
+    boolean passwordExpired;
 
     @ManyToMany
     @JoinTable(name = "USER_ROLE",
@@ -108,12 +108,21 @@ public class User {
         this.roles = roles;
     }
 
-    public User() {}
+    public User() {
+        this.enabled = true;
+        this.accountExpired = false;
+        this.accountLocked = false;
+        this.passwordExpired = false;
+    }
     public User (String username, String password, List<GrantedAuthority> authorities){
         this.username = username;
         this.password = password;
         for(GrantedAuthority authority: authorities){
             roles.add(new Role(authority.getAuthority()));
         }
+        this.enabled = true;
+        this.accountExpired = false;
+        this.accountLocked = false;
+        this.passwordExpired = false;
     }
 }

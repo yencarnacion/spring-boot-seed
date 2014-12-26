@@ -3,8 +3,8 @@ package seedproject.conf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import seedproject.domain.auth.Role;
@@ -40,6 +39,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private Assembler assembler;
     @Autowired
     RoleRepository roleRepository;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     private void createRolesIfNotPresent() {
         LOG.info("... creating Roles");
@@ -75,23 +79,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         createRolesIfNotPresent();
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder encoder = passwordEncoder();
 
         auth.userDetailsService(userDetailsManager).passwordEncoder(encoder);
-        //auth.jdbcAuthentication().dataSource(datasource);
 
         if(!userDetailsManager.userExists("administrator")) {
 
             LOG.info("... creating System Administrator");
             List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            //User userEntity = new User("administrator", encoder.encode("password"), authorities);
-            User userEntity = new User("administrator", "password", authorities);
+            User userEntity = new User("administrator", encoder.encode("password"), authorities);
 
             userDetailsManager.createUser(assembler.buildUserFromUserEntity(userEntity));
         }
-
-
-        //auth.inMemoryAuthentication().withUser("user").password("password").roles("USER"); //delete
     }
 }

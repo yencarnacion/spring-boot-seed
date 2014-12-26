@@ -27,9 +27,9 @@ public class Assembler {
         String username = userEntity.getUsername();
         String password = userEntity.getPassword();
         boolean enabled = userEntity.getEnabled();
-        boolean accountNonExpired = userEntity.getAccountExpired();
-        boolean credentialsNonExpired = userEntity.getPasswordExpired();
-        boolean accountNonLocked = userEntity.getAccountLocked();
+        boolean accountNonExpired = !(userEntity.getAccountExpired());
+        boolean credentialsNonExpired = !(userEntity.getPasswordExpired());
+        boolean accountNonLocked = !(userEntity.getAccountLocked());
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         for (Role role : userEntity.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
@@ -46,9 +46,9 @@ public class Assembler {
         userEntity.setUsername(userDetails.getUsername());
         userEntity.setPassword(userDetails.getPassword());
         userEntity.setEnabled(userDetails.isEnabled());
-        userEntity.setAccountExpired(userDetails.isAccountNonExpired());
-        userEntity.setPasswordExpired(userDetails.isCredentialsNonExpired());
-        userEntity.setAccountLocked(userDetails.isAccountNonLocked());
+        userEntity.setAccountExpired(!(userDetails.isAccountNonExpired()));
+        userEntity.setPasswordExpired(!(userDetails.isCredentialsNonExpired()));
+        userEntity.setAccountLocked(!(userDetails.isAccountNonLocked()));
         Set<Role> roles = new HashSet<Role>();
         for(GrantedAuthority authority: userDetails.getAuthorities()){
             roles.add( roleRepository.findByAuthority(authority.getAuthority()));
