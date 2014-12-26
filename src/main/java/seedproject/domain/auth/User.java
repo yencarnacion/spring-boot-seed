@@ -1,8 +1,11 @@
 package seedproject.domain.auth;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,23 +23,26 @@ public class User {
     @Column(nullable=false, length=256)
     String password;
 
-    @Column
+    @Column(nullable=false)
     Boolean enabled = true;
 
-    @Column
-    Boolean accountExpired;
+    @Column(nullable=false)
+    Boolean accountExpired = false;
 
-    @Column
-    Boolean accountLocked;
+    @Column(nullable=false)
+    Boolean accountLocked = false;
 
-    @Column
-    Boolean passwordExpired;
+    @Column(nullable=false)
+    Boolean passwordExpired = false;
 
     @ManyToMany
     @JoinTable(name = "USER_ROLE",
             joinColumns =  @JoinColumn(name = "USER_ID", referencedColumnName="ID") ,
             inverseJoinColumns =  @JoinColumn(name = "ROLE_ID", referencedColumnName="ID") )
+
+
     private Set<Role> roles = new HashSet<Role>();
+
 
     public Integer getId() {
         return id;
@@ -100,5 +106,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public User() {}
+    public User (String username, String password, List<GrantedAuthority> authorities){
+        this.username = username;
+        this.password = password;
+        for(GrantedAuthority authority: authorities){
+            roles.add(new Role(authority.getAuthority()));
+        }
     }
 }
