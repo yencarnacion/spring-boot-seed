@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="en" >
   <head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css" />
   </head>
   <body ng-app="myApp">
@@ -8,7 +13,7 @@
       <div class="page-header">
         <h1>A checklist</h1>
       </div>
-      <div class="alert alert-info" role="alert" ng-hide="items && items.length > 0">
+      <div class="alert alert-info" role="alert" ng-hide="items &amp;&amp; items.length > 0">
         There are no items yet.
       </div>
       <form class="form-horizontal" role="form" ng-submit="addItem(newItem)">

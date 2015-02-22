@@ -29,10 +29,10 @@ repositories {
 // In this section you declare the dependencies for your production and test code
 dependencies {
 
-    compile 'org.springframework.boot:spring-boot-starter-parent:1.2.0.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-web:1.2.0.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa:1.2.0.RELEASE'
-    compile 'org.springframework.boot:spring-boot-starter-security:1.2.0.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-parent:1.2.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-web:1.2.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:1.2.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-security:1.2.1.RELEASE'
     compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'
     compile 'com.h2database:h2:1.4.184'
     //runtime 'org.hsqldb:hsqldb:2.3.2'

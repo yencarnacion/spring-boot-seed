@@ -1,0 +1,18 @@
+== Spring-Boot-Seed
+This is a work in progress that is not finished.  At the moment, trying to add a new task gives the following
+error:
+Invalid CSRF token found for http://localhost:8080/items
+
+=== What this is
+This projects is meant to get you started with a basic Spring Boot project that uses
+Spring Security, exposes a JSON rest api, and has a basic AngularJS todo app.
+
+=== How to Run
+.To get this project working, perform the minimum steps:
+----
+ $ gradlew run
+----
+
+Then, use your browser to connect to http://localhost:8080 with the following credentials:
+username: administrator
+password: password

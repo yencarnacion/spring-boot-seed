@@ -64,6 +64,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        /*
+        //http://stackoverflow.com/questions/20622862/how-to-use-spring-securitys-csrf-feature-for-stateless-endpoints
+        //http://stackoverflow.com/questions/21855259/spring-security-rest-authentication-and-csrf?rq=1
+         http
+            .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionFixation().none().and()
+            .csrf().disable();
+         */
         http
                 .authorizeRequests().anyRequest().authenticated();
         http
